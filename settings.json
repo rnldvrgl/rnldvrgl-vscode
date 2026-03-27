@@ -305,7 +305,8 @@
   "editor.gotoLocation.multipleTypeDefinitions": "goto",
 
   // Typography
-  "editor.fontFamily": "JetBrains Mono, Geist Mono, Fira Code",
+  "editor.fontFamily": "JetBrains Mono, JetBrains Mono Nerd Font, Geist Mono, Fira Code, monospace",
+  "terminal.integrated.fontFamily": "JetBrains Mono Nerd Font, JetBrains Mono, Geist Mono, monospace",
   "editor.suggestFontSize": 16,
   "editor.suggestLineHeight": 30,
   "terminal.integrated.lineHeight": 1.5,

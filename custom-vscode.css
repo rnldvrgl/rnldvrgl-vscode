@@ -1,6 +1,6 @@
 /* Code comment style */
 .mtk3 {
-    font-family: 'JetBrains Mono', monospace !important;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font', monospace !important;
     font-style: italic !important;
     color: #008c7d !important;
 }
@@ -57,14 +57,14 @@
 .monaco-tree .monaco-tree-row .label-name,
 .monaco-list .monaco-list-row
 .monaco-icon-label .label-name {
-    font-family: 'JetBrains Mono', monospace !important;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font', monospace !important;
     font-size: 14px !important;
     font-weight: 400 !important;
     color: #FFF !important;
 }
 
 .explorer-item-edited {
-  font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font' !important;
+  font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font', monospace !important;
   font-size: 14px !important;
 }
 
@@ -156,7 +156,7 @@
 
 /* Search Label */
 .search-label {
-    font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font' !important;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font', monospace !important;
     font-size: 14px !important;
     color: #fff;
     display: block;
@@ -223,7 +223,7 @@
     padding: 16px !important;
     border: none !important;
     /* background-color: rgba(34, 34, 34, .40) !important; */
-    font-family: "JetBrains Mono", "JetBrains Mono Nerd Font" !important;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font', monospace !important;
     font-size: 16px !important;
     margin-bottom: 16px !important;
 }
@@ -274,7 +274,7 @@
 .quick-input-widget .quick-input-message,
 .monaco-workbench .part.titlebar .command-center .action-item,
 .monaco-workbench .part.titlebar .command-center .action-item .action-label {
-    font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font' monospace !important;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Nerd Font', monospace !important;
 }
 
 /* Keep editor tabs visible */
