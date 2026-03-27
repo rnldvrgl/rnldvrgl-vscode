@@ -1,95 +1,80 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const checkElement = setInterval(() => {
-        const commandDialog = document.querySelector(".quick-input-widget");
-        if (commandDialog) {
-          // Apply the blur effect immediately if the command dialog is visible
-          if (commandDialog.style.display !== "none") {
-            runMyScript();
-          }
-            // Create an DOM observer to 'listen' for changes in element's attribute.
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                        if (commandDialog.style.display === 'none') {
-                            handleEscape();
-                        } else {
-                            // If the .quick-input-widget element (command palette) is in the DOM
-                            // but no inline style display: none, show the backdrop blur.
-                            runMyScript();
-                        }
+(function () {
+    'use strict';
+
+    // ── Helpers ────────────────────────────────────────────────────────
+    function setStickyWidgetsOpacity(value) {
+        document.querySelectorAll('.sticky-widget').forEach(function (w) {
+            w.style.opacity = value;
+        });
+        var tree = document.querySelector('.monaco-tree-sticky-container');
+        if (tree) tree.style.opacity = value;
+    }
+
+    // ── Show backdrop blur ─────────────────────────────────────────────
+    function showBlur() {
+        var existing = document.getElementById('command-blur');
+        if (existing) {
+            // Already visible — make sure it's shown
+            existing.classList.add('visible');
+            return;
+        }
+
+        var workbench = document.querySelector('.monaco-workbench');
+        if (!workbench) return;
+
+        var overlay = document.createElement('div');
+        overlay.id = 'command-blur';
+        overlay.addEventListener('click', hideBlur);
+        workbench.appendChild(overlay);
+
+        // Trigger reflow so the CSS transition plays
+        overlay.offsetHeight; // eslint-disable-line no-unused-expressions
+        overlay.classList.add('visible');
+
+        setStickyWidgetsOpacity(0);
+    }
+
+    // ── Hide backdrop blur (with fade-out) ─────────────────────────────
+    function hideBlur() {
+        var overlay = document.getElementById('command-blur');
+        if (!overlay) return;
+
+        overlay.classList.remove('visible');
+        overlay.addEventListener('transitionend', function handler() {
+            overlay.removeEventListener('transitionend', handler);
+            overlay.remove();
+        });
+
+        setStickyWidgetsOpacity(1);
+    }
+
+    // ── Wait for the command palette widget, then observe it ───────────
+    var poll = setInterval(function () {
+        var widget = document.querySelector('.quick-input-widget');
+        if (!widget) return;
+
+        clearInterval(poll);
+
+        // If already open on load
+        if (widget.style.display !== 'none') showBlur();
+
+        new MutationObserver(function (mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+                if (mutations[i].attributeName === 'style') {
+                    if (widget.style.display === 'none') {
+                        hideBlur();
+                    } else {
+                        showBlur();
                     }
-                });
-            });
+                }
+            }
+        }).observe(widget, { attributes: true });
+    }, 500);
 
-            observer.observe(commandDialog, { attributes: true });
-
-            // Clear the interval once the observer is set
-            clearInterval(checkElement);
-        } else {
-            console.log("Command dialog not found yet. Retrying...");
-        }
-    }, 500); // Check every 500ms
-
-    // Execute when command palette was launched.
-    document.addEventListener('keydown', function(event) {
-        if ((event.metaKey || event.ctrlKey) && event.key === 'p') {
-            event.preventDefault();
-            runMyScript();
-        } else if (event.key === 'Escape' || event.key === 'Esc') {
-            event.preventDefault();
-            handleEscape();
-        }
-    });
-
-    // Ensure the escape key event listener is at the document level
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' || event.key === 'Esc') {
-            handleEscape();
+    // ── Keyboard shortcut listener (single, capture phase) ─────────────
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            hideBlur();
         }
     }, true);
-
-    function runMyScript() {
-        const targetDiv = document.querySelector(".monaco-workbench");
-
-        // Remove existing element if it already exists
-        const existingElement = document.getElementById("command-blur");
-        existingElement && existingElement.remove();
-
-        // Create and configure the new element
-        const newElement = document.createElement("div");
-        newElement.setAttribute('id', 'command-blur');
-
-        newElement.addEventListener('click', function() {
-            newElement.remove();
-        });
-
-        // Append the new element as a child of the targetDiv
-        targetDiv.appendChild(newElement);
-
-        // Hide the sticky widget
-        const widgets = document.querySelectorAll(".sticky-widget");
-        widgets.forEach((widget) => {
-            widget.style.opacity = 0;
-        });
-
-        // Hide the tree sticky widget
-        const treeWidget = document.querySelector(".monaco-tree-sticky-container");
-        treeWidget && (treeWidget.style.opacity = 0);
-    }
-
-    // Remove the backdrop blur from the DOM when esc key is pressed.
-    function handleEscape() {
-        const element = document.getElementById("command-blur");
-        element && element.click();
-
-        // Show the sticky widget
-        const widgets = document.querySelectorAll(".sticky-widget");
-        widgets.forEach((widget) => {
-            widget.style.opacity = 1;
-        });
-
-        // Show the tree sticky widget
-        const treeWidget = document.querySelector(".monaco-tree-sticky-container");
-        treeWidget && (treeWidget.style.opacity = 1);
-    }
-});
+})();
