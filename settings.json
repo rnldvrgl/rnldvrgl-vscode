@@ -274,6 +274,7 @@
   "files.trimFinalNewlines": true,
   "workbench.editor.showTabs": "multiple",
   "workbench.editor.wrapTabs": true,
+  "workbench.editor.limit.enabled": false,
   "editor.minimap.enabled": false,
   "editor.lineNumbers": "off",
   "editor.guides.indentation": false,
