@@ -272,7 +272,8 @@
   "window.nativeFullScreen": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "workbench.editor.showTabs": "single",
+  "workbench.editor.showTabs": "multiple",
+  "workbench.editor.wrapTabs": true,
   "editor.minimap.enabled": false,
   "editor.lineNumbers": "off",
   "editor.guides.indentation": false,
@@ -468,4 +469,3 @@
     "https://biomejs.dev": true
 },
 }
-
