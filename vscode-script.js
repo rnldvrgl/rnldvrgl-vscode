@@ -10,41 +10,27 @@
         if (tree) tree.style.opacity = value;
     }
 
-    // ── Show backdrop blur ─────────────────────────────────────────────
-    function showBlur() {
-        var existing = document.getElementById('command-blur');
-        if (existing) {
-            // Already visible — make sure it's shown
-            existing.classList.add('visible');
-            return;
-        }
-
+    // ── Create the backdrop overlay once ────────────────────────────────
+    function initOverlay() {
+        if (document.getElementById('command-blur')) return;
         var workbench = document.querySelector('.monaco-workbench');
         if (!workbench) return;
-
         var overlay = document.createElement('div');
         overlay.id = 'command-blur';
-        overlay.addEventListener('click', hideBlur);
         workbench.appendChild(overlay);
+    }
 
-        // Trigger reflow so the CSS transition plays
-        overlay.offsetHeight; // eslint-disable-line no-unused-expressions
-        overlay.classList.add('visible');
-
+    // ── Show backdrop blur ─────────────────────────────────────────────
+    function showBlur() {
+        var overlay = document.getElementById('command-blur');
+        if (overlay) overlay.classList.add('visible');
         setStickyWidgetsOpacity(0);
     }
 
-    // ── Hide backdrop blur (with fade-out) ─────────────────────────────
+    // ── Hide backdrop blur ─────────────────────────────────────────────
     function hideBlur() {
         var overlay = document.getElementById('command-blur');
-        if (!overlay) return;
-
-        overlay.classList.remove('visible');
-        overlay.addEventListener('transitionend', function handler() {
-            overlay.removeEventListener('transitionend', handler);
-            overlay.remove();
-        });
-
+        if (overlay) overlay.classList.remove('visible');
         setStickyWidgetsOpacity(1);
     }
 
@@ -54,6 +40,8 @@
         if (!widget) return;
 
         clearInterval(poll);
+
+        initOverlay();
 
         // If already open on load
         if (widget.style.display !== 'none') showBlur();

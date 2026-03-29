@@ -40,7 +40,7 @@
 
 /* ── Find match highlight ───────────────────────────────────────────── */
 .currentFindMatchInline {
-    background: rgba(0, 0, 0, 0.6) !important;
+    background: rgba(99, 102, 241, 0.35) !important;
 }
 
 /* ── Sidebar ────────────────────────────────────────────────────────── */
@@ -49,7 +49,7 @@
 }
 
 /* File Explorer: selected row */
-.monaco-list.list_id_1 .monaco-list-row.selected {
+.part.sidebar .monaco-list .monaco-list-row.selected {
     background-color: var(--accent-translucent) !important;
     opacity: 1 !important;
     border-top: 1px solid rgba(99, 102, 241, 0.25);
@@ -57,13 +57,14 @@
     transition: background-color var(--transition);
 }
 
-/* Hide the chevron icon for a cleaner tree view */
-.codicon-tree-item-expanded:before {
+/* Hide tree-view disclosure chevrons for a cleaner look.
+   Targets both expanded and collapsed states via .collapsible. */
+.monaco-tl-twistie.collapsible::before {
     display: none !important;
 }
 
 /* Selected item label */
-.monaco-list.list_id_1 .monaco-list-row.selected .label-name {
+.part.sidebar .monaco-list .monaco-list-row.selected .label-name {
     color: var(--text-primary) !important;
     opacity: 1 !important;
 }
@@ -109,7 +110,7 @@
 }
 
 /* ── Scrollbar ──────────────────────────────────────────────────────── */
-.slider {
+.monaco-scrollable-element > .scrollbar > .slider {
     position: absolute !important;
     right: 2px !important;
     width: 4px !important;
@@ -120,7 +121,7 @@
     transition: opacity var(--transition) !important;
 }
 
-.slider:hover {
+.monaco-scrollable-element > .scrollbar > .slider:hover {
     opacity: 0.8 !important;
 }
 
@@ -158,9 +159,13 @@
     display: block;
 }
 
-.search-icon { display: none !important; }
-.codicon-search::before { display: none !important; }
-.codicon-arrow-right, .codicon-arrow-left { display: none !important; }
+/* Scoped to title bar — avoids hiding icons in explorer, terminal, etc. */
+.part.titlebar .search-icon { display: none !important; }
+.part.titlebar .codicon-search::before { display: none !important; }
+/* NOTE: codicon-arrow-right/left hiding removed — it broke find-widget
+   navigation, breadcrumbs, and terminal tab arrows. */
+/* NOTE: Window controls in titlebar-right are hidden for minimal UI.
+   Use keyboard shortcuts or taskbar to manage the window. */
 .titlebar-right > * { display: none !important; }
 .command-center-center { width: auto !important; }
 
@@ -177,12 +182,12 @@
 }
 
 .quick-input-list,
-.quick-input-list .list_id_6 {
+.quick-input-list .monaco-list {
     min-height: 400px !important;
 }
 
-/* List row backgrounds: transparent for clean look */
-.monaco-list-rows {
+/* List row backgrounds: transparent for clean look (scoped to quick-input) */
+.quick-input-widget .monaco-list-rows {
     background: transparent !important;
 }
 
@@ -209,10 +214,11 @@
     background: rgba(0, 0, 0, 0.2);
     top: 0;
     left: 0;
+    z-index: 2500;
     backdrop-filter: blur(var(--blur-strength));
     opacity: 0;
     transition: opacity 200ms ease;
-    pointer-events: auto;
+    pointer-events: none;
 }
 
 #command-blur.visible {
