@@ -1,29 +1,28 @@
 /* ======================================================================
    VS Code Custom Theme Kit — Modern Minimal
    ======================================================================
-   Change --accent to any color. The entire theme adapts.
-   All design tokens are here — nothing is hardcoded below.
+   This kit adds layout, spacing, and polish on TOP of your selected
+   VS Code theme. It inherits all colors from the active theme via
+   --vscode-* CSS variables. Only --accent is user-configurable.
    ====================================================================== */
 
 :root {
-    /* ── Accent ─────────────────────────────────────────────────── */
+    /* ── Accent (change this to any color you like) ─────────────── */
     --accent: #818cf8;
     --accent-dim: rgba(129, 140, 248, 0.12);
     --accent-mid: rgba(129, 140, 248, 0.25);
     --accent-glow: rgba(129, 140, 248, 0.06);
 
-    /* ── Surfaces (GitHub Dimmed / Tailwind Slate) ─────────────── */
-    --bg-base: #1a1e2e;
-    --bg-surface: #222738;
-    --bg-raised: #2a3045;
-    --bg-overlay: #333a52;
-    --bg-gradient: linear-gradient(165deg, #2a3045 0%, #222738 100%);
+    /* ── Surfaces (inherited from active theme) ─────────────────── */
+    --bg-base: var(--vscode-editor-background);
+    --bg-surface: var(--vscode-sideBar-background, var(--vscode-editor-background));
+    --bg-raised: var(--vscode-editorWidget-background, var(--vscode-editor-background));
+    --bg-overlay: var(--vscode-menu-background, var(--vscode-editorWidget-background));
 
-    /* ── Text ───────────────────────────────────────────────────── */
-    --text-primary: #e2e5f0;
-    --text-secondary: #9ea2be;
-    --text-muted: rgba(158, 162, 190, 0.55);
-    --sidebar-title: #7b80a0;
+    /* ── Text (inherited from active theme) ─────────────────────── */
+    --text-primary: var(--vscode-foreground);
+    --text-secondary: var(--vscode-descriptionForeground, var(--vscode-foreground));
+    --text-muted: var(--vscode-disabledForeground, rgba(128, 128, 128, 0.55));
 
     /* ── Borders ────────────────────────────────────────────────── */
     --border-subtle: rgba(255, 255, 255, 0.06);
@@ -201,7 +200,7 @@
     font-size: 11px !important;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--sidebar-title) !important;
+    color: var(--text-muted) !important;
 }
 
 /* ======================================================================
