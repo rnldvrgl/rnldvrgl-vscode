@@ -144,7 +144,7 @@ The `settings.json` includes VsCodeVim configuration with:
 | Highlighted yank | Accent-colored flash (500ms) |
 | Ctrl+P passthrough | `vim.handleKeys: { "<C-p>": false }` |
 
-For the full keybind reference, see `settings-vim.json`.
+For the full keybind reference, see `settings.json` and look for `Vim section`.
 
 > **Non-Vim users:** Simply don't install the `vscodevim.vim` extension. The CSS/JS works independently.
 
