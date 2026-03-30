@@ -12,22 +12,22 @@
     --accent-mid: rgba(129, 140, 248, 0.25);
     --accent-glow: rgba(129, 140, 248, 0.06);
 
-    /* ── Surfaces ───────────────────────────────────────────────── */
-    --bg-base: #0f1117;
-    --bg-surface: #161822;
-    --bg-raised: #1c1e2e;
-    --bg-overlay: #232537;
-    --bg-gradient: linear-gradient(165deg, #1e2033 0%, #161822 100%);
+    /* ── Surfaces (GitHub Dimmed / Tailwind Slate) ─────────────── */
+    --bg-base: #1a1e2e;
+    --bg-surface: #222738;
+    --bg-raised: #2a3045;
+    --bg-overlay: #333a52;
+    --bg-gradient: linear-gradient(165deg, #2a3045 0%, #222738 100%);
 
     /* ── Text ───────────────────────────────────────────────────── */
-    --text-primary: #e2e4ed;
-    --text-secondary: #9194b1;
-    --text-muted: rgba(145, 148, 177, 0.55);
-    --sidebar-title: #6b6f8e;
+    --text-primary: #e2e5f0;
+    --text-secondary: #9ea2be;
+    --text-muted: rgba(158, 162, 190, 0.55);
+    --sidebar-title: #7b80a0;
 
     /* ── Borders ────────────────────────────────────────────────── */
-    --border-subtle: rgba(255, 255, 255, 0.04);
-    --border-default: rgba(255, 255, 255, 0.07);
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-default: rgba(255, 255, 255, 0.09);
     --border-focus: var(--accent);
 
     /* ── Blur & Motion ──────────────────────────────────────────── */
@@ -44,9 +44,9 @@
     --radius-xl: 20px;
 
     /* ── Shadows ─────────────────────────────────────────────────── */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255,255,255,0.03);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.14);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.28);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.04);
     --shadow-glow: 0 0 24px rgba(129, 140, 248, 0.08);
 
     /* ── Typography ─────────────────────────────────────────────── */
@@ -158,12 +158,6 @@
     background-color: rgba(255, 255, 255, 0.02) !important;
 }
 
-/* Hide tree-view disclosure chevrons for clean tree look.
-   Scoped to sidebar only — never touch panel/terminal twisties. */
-.part.sidebar .monaco-tl-twistie.collapsible::before {
-    display: none !important;
-}
-
 /* Selected item label */
 .part.sidebar .monaco-list .monaco-list-row.selected .label-name {
     color: var(--text-primary) !important;
@@ -270,10 +264,6 @@
     display: block;
 }
 
-/* Scoped to title bar — avoids breaking icons elsewhere
-   NOTE: We no longer hide codicon-search::before here;
-   it's handled in the "Global Icon Safety Net" section (§21)
-   to prevent inheritance issues. */
 .part.titlebar .search-icon { display: none !important; }
 .titlebar-right > * { display: none !important; }
 .command-center-center { width: auto !important; }
@@ -427,39 +417,9 @@
    10. PANELS (Terminal, Output, Debug Console)
    ====================================================================== */
 
-/* Panel header tabs */
-.part.panel .composite.title .action-label {
-    font-family: var(--font-ui) !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
 /* Terminal container */
 .monaco-workbench .part.panel {
     border-top: 1px solid var(--border-subtle) !important;
-}
-
-/* ── Terminal icon protection ───────────────────────────────────────── */
-/* Ensure all codicon icons in the panel/terminal are always visible */
-.part.panel .codicon::before,
-.part.panel .monaco-action-bar .action-label.codicon::before,
-.terminal-tabs-entry .codicon::before {
-    display: inline-block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-/* Terminal tab icons */
-.terminal-tabs-entry .label-name {
-    font-family: var(--font-mono) !important;
-    font-size: 12px !important;
-}
-
-/* Terminal tab: active indicator */
-.terminal-tabs-entry.is-active {
-    border-left: 2px solid var(--accent) !important;
 }
 
 /* Terminal selection */
@@ -518,24 +478,29 @@
    16. VIM INTEGRATION
    ====================================================================== */
 
-/* VsCodeVim command-line bottom bar — make typed text always visible */
-.monaco-editor .vim-bottom-bar,
-.monaco-editor .vim-command-line {
-    background: var(--bg-raised) !important;
-    color: var(--text-primary) !important;
-    font-family: var(--font-mono) !important;
-    font-size: 13px !important;
-    padding: 4px 12px !important;
-    border-top: 1px solid var(--border-default) !important;
+/* Status bar: minimal styling so it doesn't clutter the UI
+   but still shows VsCodeVim command-line input for / and : */
+.monaco-workbench .part.statusbar {
+    background: var(--bg-base) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+    font-size: 12px !important;
 }
 
-.monaco-editor .vim-command-line input,
-.monaco-editor .vim-bottom-bar input {
+.monaco-workbench .part.statusbar .statusbar-item a {
+    color: var(--text-muted) !important;
+}
+
+.monaco-workbench .part.statusbar .statusbar-item a:hover {
+    color: var(--text-secondary) !important;
+}
+
+/* VsCodeVim status bar — the command-line where / and : text appears */
+.monaco-workbench .part.statusbar .vim-status-bar-text,
+.monaco-workbench .part.statusbar [id*="vim"],
+.monaco-workbench .part.statusbar .left-items .statusbar-item:last-child {
     color: var(--text-primary) !important;
-    background: transparent !important;
     font-family: var(--font-mono) !important;
-    font-size: 13px !important;
-    caret-color: var(--accent) !important;
+    font-size: 12px !important;
 }
 
 /* Vim search highlights */
@@ -548,14 +513,6 @@
     background: var(--accent) !important;
     color: var(--bg-base) !important;
     border-radius: 2px;
-}
-
-/* Vim mode indicator in status bar (if visible) */
-.vim-mode-status-bar-text {
-    font-family: var(--font-mono) !important;
-    font-size: 11px !important;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
 }
 
 /* ======================================================================
@@ -600,28 +557,4 @@
     border: 1px solid var(--border-default) !important;
     border-radius: var(--radius-md) !important;
     box-shadow: var(--shadow-md) !important;
-}
-
-/* ======================================================================
-   20. EDITOR GUTTER (git decorations, breakpoints)
-   ====================================================================== */
-
-.monaco-editor .margin-view-overlays .codicon {
-    display: inline-block !important;
-    visibility: visible !important;
-}
-
-/* ======================================================================
-   21. GLOBAL ICON SAFETY NET
-   ====================================================================== */
-
-/* Never hide codicon glyphs outside of explicitly targeted areas */
-.codicon::before {
-    visibility: visible !important;
-}
-
-/* Only suppress codicons we intentionally hide (title bar search) */
-.part.titlebar .search-icon .codicon::before,
-.part.titlebar .codicon-search::before {
-    display: none !important;
 }

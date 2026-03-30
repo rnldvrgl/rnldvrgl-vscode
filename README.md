@@ -53,10 +53,10 @@ All design tokens are at the top of `custom-vscode.css`:
 | Variable | Default | What it controls |
 |---|---|---|
 | `--accent` | `#818cf8` | Primary accent color |
-| `--bg-base` | `#0f1117` | Deepest background |
-| `--bg-surface` | `#161822` | Surface / panel backgrounds |
-| `--bg-raised` | `#1c1e2e` | Elevated surfaces |
-| `--bg-overlay` | `#232537` | Overlay / modal backgrounds |
+| `--bg-base` | `#1a1e2e` | Deepest background (soft navy) |
+| `--bg-surface` | `#222738` | Surface / panel backgrounds |
+| `--bg-raised` | `#2a3045` | Elevated surfaces |
+| `--bg-overlay` | `#333a52` | Overlay / modal backgrounds |
 | `--blur-strength` | `12px` | Backdrop blur intensity |
 | `--radius-xs/sm/md/lg/xl` | `4/6/10/14/20px` | Border radii |
 | `--font-mono` | JetBrains Mono | Monospace font stack |
