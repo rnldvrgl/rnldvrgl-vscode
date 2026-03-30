@@ -2,8 +2,7 @@
   // ─── Editor ─────────────────────────────────────────────────────────
   "editor.accessibilitySupport": "off",
   "editor.codeActionsOnSave": {
-    "source.addMissingImports": "always",
-    "source.organizeImports": "always",
+    "source.addMissingImports": "always"
   },
   "editor.colorDecorators": false,
   "editor.copyWithSyntaxHighlighting": false,
@@ -111,7 +110,7 @@
   },
 
   // ─── Terminal ───────────────────────────────────────────────────────
-  "terminal.integrated.fontFamily": "JetBrains Mono Nerd Font, JetBrains Mono, Geist Mono, monospace",
+  "terminal.integrated.fontFamily": "JetBrainsMono NFM, JetBrains Mono, Geist Mono, monospace",
   "terminal.integrated.fontSize": 16,
   "terminal.integrated.lineHeight": 1.5,
   "terminal.integrated.env.windows": {},
@@ -187,10 +186,79 @@
   "[php]": { "editor.defaultFormatter": "bmewburn.vscode-intelephense-client" },
 
   // ─── VsCodeVim (vscodevim.vim) ──────────────────────────────────────
-  "vim.highlightedyank.enable": true,
+ "vim.foldfix": true,
   "vim.highlightedyank.color": "rgba(129, 140, 248, 0.4)",
+  "vim.highlightedyank.enable": true,
   "vim.highlightedyank.textColor": "white",
-  "vim.highlightedyank.duration": 300,
+  "vim.highlightedyank.fadeOut": true,
+  "vim.highlightedyan.enable": true,
+  "vim.highlightedyank.duration": 500,
+  "vim.hlsearch": true,
+  "vim.leader": "<space>",
+  "vim.handleKeys": {
+    "<C-w>": false,
+    "<C-p>": false
+  },
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["u"],
+      "commands": ["undo"]
+    },
+    {
+      "before": ["<C-r>"],
+      "commands": ["redo"]
+    },
+    {
+      "before": ["leader", "r"],
+      "commands": ["editor.action.rename"]
+    },
+    {
+      "before": ["leader", "w"],
+      "commands": [":w!"]
+    },
+    {
+      "before": ["leader", "q"],
+      "commands": [":q!"]
+    },
+    {
+      "before": ["leader", "x"],
+      "commands": [":x!"]
+    },
+    {
+      "after": ["g", "g", "V", "G"],
+      "before": ["<c-a>"]
+    },
+    {
+      "before": ["<leader>", "k"],
+      "commands": ["editor.action.showHover"]
+    },
+    {
+      "before": ["[", "d"],
+      "commands": ["editor.action.marker.prev"]
+    },
+    {
+      "before": ["]", "d"],
+      "commands": ["editor.action.marker.next"]
+    },
+    {
+      "before": ["<leader>", "c", "a"],
+      "commands": ["editor.action.quickFix"]
+    },
+    {
+      "after": ["^"],
+      "before": ["H"]
+    },
+    {
+      "after": ["$"],
+      "before": ["L"]
+    },
+    {
+      "before": ["leader", "i"],
+      "commands": ["extension.toggleBool"]
+    }
+  ],
+  "vim.useCtrlKeys": true,
+  "vim.useSystemClipboard": true,
 
   // ─── Tailwind CSS (bradlc.vscode-tailwindcss) ───────────────────────
   "tailwindCSS.includeLanguages": { "plaintext": "html" },
