@@ -106,7 +106,7 @@
     "**/composer.lock": true,
     "**/package-lock.json": true,
     "storage": true,
-    ".phpunit.result.cache": true,
+    ".phpunit.result.cache": true
   },
 
   // ─── Terminal ───────────────────────────────────────────────────────
@@ -158,7 +158,7 @@
     "vue-html": "html",
     "vue": "html",
     "react": "html",
-    "javascript": "html",
+    "javascript": "html"
   },
 
   // ─── Prettier (esbenp.prettier-vscode) ──────────────────────────────
@@ -186,6 +186,8 @@
   "[php]": { "editor.defaultFormatter": "bmewburn.vscode-intelephense-client" },
 
   // ─── VsCodeVim (vscodevim.vim) ──────────────────────────────────────
+  // comment these to disable Vim keybinds.
+  // Requires the "vscodevim.vim" extension
  "vim.foldfix": true,
   "vim.highlightedyank.color": "rgba(129, 140, 248, 0.4)",
   "vim.highlightedyank.enable": true,
