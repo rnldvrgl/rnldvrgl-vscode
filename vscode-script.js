@@ -1,6 +1,10 @@
 (function () {
     'use strict';
 
+    // ── Constants ──────────────────────────────────────────────────────
+    var IDLE_MS = 90000; // 90 seconds before sidebar dims
+    var POLL_INTERVAL = 400;
+
     // ── Helpers ────────────────────────────────────────────────────────
     function setStickyWidgetsOpacity(value) {
         document.querySelectorAll('.sticky-widget').forEach(function (w) {
@@ -10,10 +14,14 @@
         if (tree) tree.style.opacity = value;
     }
 
+    function $(selector) {
+        return document.querySelector(selector);
+    }
+
     // ── Create the backdrop overlay once ────────────────────────────────
     function initOverlay() {
         if (document.getElementById('command-blur')) return;
-        var workbench = document.querySelector('.monaco-workbench');
+        var workbench = $('.monaco-workbench');
         if (!workbench) return;
         var overlay = document.createElement('div');
         overlay.id = 'command-blur';
@@ -25,7 +33,6 @@
         var overlay = document.getElementById('command-blur');
         if (overlay) {
             overlay.classList.add('visible');
-            // Add a body class so CSS can react to palette-open state
             document.body.classList.add('command-palette-open');
         }
         setStickyWidgetsOpacity(0);
@@ -40,32 +47,48 @@
         setStickyWidgetsOpacity(1);
     }
 
-    // ── Zen: fade sidebar on idle (subtle focus mode) ──────────────────
+    // ── Focus mode: dim sidebar after idle ─────────────────────────────
     var idleTimer = null;
-    var IDLE_MS = 60000; // 1 minute
 
     function resetIdleTimer() {
         if (idleTimer) clearTimeout(idleTimer);
-        // Restore sidebar if it was dimmed
-        var sidebar = document.querySelector('.part.sidebar');
-        if (sidebar) sidebar.style.opacity = '';
-
+        var sidebar = $('.part.sidebar');
+        if (sidebar && sidebar.style.opacity === '0.45') {
+            sidebar.style.transition = 'opacity 0.4s ease';
+            sidebar.style.opacity = '';
+        }
         idleTimer = setTimeout(function () {
-            var sb = document.querySelector('.part.sidebar');
+            var sb = $('.part.sidebar');
             if (sb) {
-                sb.style.transition = 'opacity 1.5s ease';
-                sb.style.opacity = '0.5';
+                sb.style.transition = 'opacity 2s ease';
+                sb.style.opacity = '0.45';
             }
         }, IDLE_MS);
     }
 
+    // Use passive listeners for performance
     document.addEventListener('keydown', resetIdleTimer, true);
     document.addEventListener('mousemove', resetIdleTimer, { passive: true, capture: true });
     resetIdleTimer();
 
+    // ── Smooth panel resize indicator ──────────────────────────────────
+    // Adds a subtle accent glow to sash elements during drag
+    document.addEventListener('mousedown', function (e) {
+        var sash = e.target.closest('.monaco-sash');
+        if (!sash) return;
+        sash.style.transition = 'background-color 0.2s ease';
+        sash.style.backgroundColor = 'rgba(129, 140, 248, 0.15)';
+
+        function cleanup() {
+            sash.style.backgroundColor = '';
+            document.removeEventListener('mouseup', cleanup);
+        }
+        document.addEventListener('mouseup', cleanup);
+    }, true);
+
     // ── Wait for the command palette widget, then observe it ───────────
     var poll = setInterval(function () {
-        var widget = document.querySelector('.quick-input-widget');
+        var widget = $('.quick-input-widget');
         if (!widget) return;
 
         clearInterval(poll);
@@ -85,7 +108,7 @@
                 }
             }
         }).observe(widget, { attributes: true });
-    }, 500);
+    }, POLL_INTERVAL);
 
     // ── Keyboard shortcut listener (single, capture phase) ─────────────
     document.addEventListener('keydown', function (e) {

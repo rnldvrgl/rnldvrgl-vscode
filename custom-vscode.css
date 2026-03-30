@@ -83,6 +83,17 @@
     box-shadow: var(--shadow-md) !important;
     border: 1px solid var(--border-default) !important;
     backdrop-filter: blur(8px) !important;
+    background: var(--bg-raised) !important;
+}
+
+/* Make sure find-widget input text is always visible */
+.monaco-editor .find-widget .input {
+    color: var(--text-primary) !important;
+}
+
+.monaco-editor .find-widget .monaco-inputbox .input {
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
 }
 
 /* ── Cursor styling ─────────────────────────────────────────────────── */
@@ -147,8 +158,9 @@
     background-color: rgba(255, 255, 255, 0.02) !important;
 }
 
-/* Hide tree-view disclosure chevrons for clean tree look */
-.monaco-tl-twistie.collapsible::before {
+/* Hide tree-view disclosure chevrons for clean tree look.
+   Scoped to sidebar only — never touch panel/terminal twisties. */
+.part.sidebar .monaco-tl-twistie.collapsible::before {
     display: none !important;
 }
 
@@ -258,9 +270,11 @@
     display: block;
 }
 
-/* Scoped to title bar — avoids breaking icons elsewhere */
+/* Scoped to title bar — avoids breaking icons elsewhere
+   NOTE: We no longer hide codicon-search::before here;
+   it's handled in the "Global Icon Safety Net" section (§21)
+   to prevent inheritance issues. */
 .part.titlebar .search-icon { display: none !important; }
-.part.titlebar .codicon-search::before { display: none !important; }
 .titlebar-right > * { display: none !important; }
 .command-center-center { width: auto !important; }
 
@@ -427,6 +441,32 @@
     border-top: 1px solid var(--border-subtle) !important;
 }
 
+/* ── Terminal icon protection ───────────────────────────────────────── */
+/* Ensure all codicon icons in the panel/terminal are always visible */
+.part.panel .codicon::before,
+.part.panel .monaco-action-bar .action-label.codicon::before,
+.terminal-tabs-entry .codicon::before {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Terminal tab icons */
+.terminal-tabs-entry .label-name {
+    font-family: var(--font-mono) !important;
+    font-size: 12px !important;
+}
+
+/* Terminal tab: active indicator */
+.terminal-tabs-entry.is-active {
+    border-left: 2px solid var(--accent) !important;
+}
+
+/* Terminal selection */
+.monaco-workbench .part.panel .xterm .xterm-selection div {
+    background: var(--accent-mid) !important;
+}
+
 /* ======================================================================
    11. NOTIFICATIONS
    ====================================================================== */
@@ -472,4 +512,116 @@
 .monaco-breadcrumbs {
     font-family: var(--font-mono) !important;
     font-size: 12px !important;
+}
+
+/* ======================================================================
+   16. VIM INTEGRATION
+   ====================================================================== */
+
+/* VsCodeVim command-line bottom bar — make typed text always visible */
+.monaco-editor .vim-bottom-bar,
+.monaco-editor .vim-command-line {
+    background: var(--bg-raised) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 13px !important;
+    padding: 4px 12px !important;
+    border-top: 1px solid var(--border-default) !important;
+}
+
+.monaco-editor .vim-command-line input,
+.monaco-editor .vim-bottom-bar input {
+    color: var(--text-primary) !important;
+    background: transparent !important;
+    font-family: var(--font-mono) !important;
+    font-size: 13px !important;
+    caret-color: var(--accent) !important;
+}
+
+/* Vim search highlights */
+.monaco-editor .findMatch {
+    background: var(--accent-mid) !important;
+    border-radius: 2px;
+}
+
+.monaco-editor .currentFindMatch {
+    background: var(--accent) !important;
+    color: var(--bg-base) !important;
+    border-radius: 2px;
+}
+
+/* Vim mode indicator in status bar (if visible) */
+.vim-mode-status-bar-text {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ======================================================================
+   17. DIFF EDITOR
+   ====================================================================== */
+
+.monaco-diff-editor .insert-sign,
+.monaco-diff-editor .line-insert {
+    background: rgba(76, 175, 80, 0.08) !important;
+}
+
+.monaco-diff-editor .delete-sign,
+.monaco-diff-editor .line-delete {
+    background: rgba(244, 67, 54, 0.08) !important;
+}
+
+/* ======================================================================
+   18. PEEK VIEW
+   ====================================================================== */
+
+.monaco-editor .peekview-widget .head {
+    background: var(--bg-raised) !important;
+    border-bottom: 1px solid var(--border-default) !important;
+}
+
+.monaco-editor .peekview-widget .body {
+    background: var(--bg-surface) !important;
+    border: 1px solid var(--border-default) !important;
+}
+
+.monaco-editor .peekview-widget .head .peekview-title .filename {
+    color: var(--accent) !important;
+    font-family: var(--font-mono) !important;
+}
+
+/* ======================================================================
+   19. DEBUG TOOLBAR
+   ====================================================================== */
+
+.debug-toolbar {
+    background: var(--bg-raised) !important;
+    border: 1px solid var(--border-default) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* ======================================================================
+   20. EDITOR GUTTER (git decorations, breakpoints)
+   ====================================================================== */
+
+.monaco-editor .margin-view-overlays .codicon {
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+/* ======================================================================
+   21. GLOBAL ICON SAFETY NET
+   ====================================================================== */
+
+/* Never hide codicon glyphs outside of explicitly targeted areas */
+.codicon::before {
+    visibility: visible !important;
+}
+
+/* Only suppress codicons we intentionally hide (title bar search) */
+.part.titlebar .search-icon .codicon::before,
+.part.titlebar .codicon-search::before {
+    display: none !important;
 }
