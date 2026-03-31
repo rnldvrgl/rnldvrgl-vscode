@@ -178,7 +178,7 @@
 
 /* File Explorer: item labels */
 .monaco-list .monaco-list-row .monaco-icon-label .label-name {
-    font-family: var(--font-mono) !important;
+    /* font-family: var(--font-mono) !important; */
     font-size: 13px !important;
     font-weight: 400 !important;
     letter-spacing: 0.01em;
